@@ -34,12 +34,18 @@ def conpdf():
         # print(jpg_list)
         c = canvas.Canvas(os.path.basename(root) + ".pdf")
         for f in jpg_list:
+            with Image.open(os.getcwd() + "\\jpg\\" + f) as tempImag:
+                tempImag.save(os.getcwd() + "\\jpg\\" + f, quality=15)
             # 按顺序把图片画到画布上
             with Image.open(os.getcwd() + "\\jpg\\" + f) as img:
                 (w, h) = img.size
+
+            c.bookmarkPage(str(f))
             # 根据根目录名创建一个pdf
             c.setPageSize((w,h))
             c.drawImage(root + "\\" + f, 0, 0, w, h)
+
+
             # 结束当前页并新建页
             c.showPage()
         c.save()
